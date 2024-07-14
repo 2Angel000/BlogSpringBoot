@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<div class="container">
+    <div class="row">
+        <div class="col-12 mt-4">
+            <div th:switch="${currentUri}" class="alert alert-success" role="alert">
+                <!--    pasar variables-->
+                <span th:case="'/admin/'">BloggPost: Estas al día</span>
+                <span th:case="'/admin/post'">Mis publicaciones</span>
+                <span th:case="'/admin/categoria'">Categorias Disponibles</span>
+                <span th:case="'/admin/comentario'">Mis Comentarios</span>
+                <span th:case="'/admin/usuario'">Lista de Usuarios</span>
+                <span th:case="'/admin/grupo'">Administrar Grupos</span>
+                <span th:case="'/admin/permiso'">Administrar Permisos</span>
+            </div>
+        </div>
+    </div>
+</div>

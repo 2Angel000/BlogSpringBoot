@@ -1,0 +1,30 @@
+<ul class="nav text-bg-dark p-3 align-baseline">
+    <li class="nav-item">
+        <a class="nav-link text-white-50 fs-5">BlogPost</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" th:href="@{/admin/}"
+           th:classappend="${currentUri == '/admin/' ? 'text-white fw-bold' : 'text-white'}">Inicio</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" th:href="@{/admin/categoria}"
+           th:classappend="${currentUri == '/admin/categoria' ? 'text-white fw-bold' : 'text-white'}">Categoria</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" th:href="@{/admin/post}"
+           th:classappend="${currentUri == '/admin/post' ? 'text-white fw-bold' : 'text-white'}">Post</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" th:href="@{/admin/comentario}"
+        th:classappend="${currentUri == '/admin/comentario' ? 'text-white fw-bold' : 'text-white'}">Comentario</a>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle text-white" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"
+        th:classappend="${(currentUri == '/admin/usuario' || currentUri=='/admin/permiso' || currentUri=='/admin/grupo')?'fw-bold':'text-white'}">Control de Usuarios</a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" th:href="@{/admin/usuario}">Usuario</a></li>
+            <li><a class="dropdown-item" th:href="@{/admin/grupo}">Grupo</a></li>
+            <li><a class="dropdown-item" th:href="@{/admin/permiso}">Permiso</a></li>
+        </ul>
+    </li>
+</ul>
