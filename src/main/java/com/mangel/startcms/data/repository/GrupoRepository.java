@@ -13,6 +13,7 @@ import java.util.List;
 
 @Repository
 public class GrupoRepository implements GrupoRep{
+
     @Autowired
     private DataSource dataSource;
     private JdbcTemplate jdbcTemplate;
@@ -35,7 +36,7 @@ public class GrupoRepository implements GrupoRep{
 
     @Override
     public boolean update(Grupo grupo) {
-        if(grupo.getIdGrupo() != 0){
+        if(grupo.getIdGrupo() > 0){
             String sql = String.format("UPDATE grupo SET Nombre='%s' WHERE IdGrupo= %d ", grupo.getNombre(), grupo.getIdGrupo());
             jdbcTemplate.execute(sql);
             return true;
@@ -60,5 +61,17 @@ public class GrupoRepository implements GrupoRep{
 
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @Override
+    public boolean deleteById(int id) {
+        try{
+            String sql = String.format("delete from grupo where IdGrupo='%d'", id);
+            jdbcTemplate.execute(sql);
+            return true;
+        }catch (Exception e){
+            System.out.println("e = " + e);
+            return false;
+        }
     }
 }

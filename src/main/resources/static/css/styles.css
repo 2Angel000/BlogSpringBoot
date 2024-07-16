@@ -5,3 +5,37 @@
 .btn-update:hover{
     background: #361c8b;
 }
+
+
+.btn-back{
+    background: #0c5f59;
+}
+
+.btn-back:hover{
+    background: #094a45;
+    color: white;
+}
+
+.floating-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #0c5f59; /* Cambia este color según tu preferencia */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.3);
+    text-decoration: none;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.floating-button:hover {
+    background-color: #0a4844;
+    transform: scale(1.1);
+}
