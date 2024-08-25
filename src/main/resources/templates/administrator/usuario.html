@@ -1,16 +1,105 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <!doctype html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <div th:replace="/administrator/components/style.html"></div>
-  <title>Usuario-Admin</title>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <div th:replace="/administrator/components/style.html"></div>
+    <title>Usuario-Admin</title>
 </head>
 <body>
 <div th:replace="/administrator/components/nav.html"></div>
-<h1>Usuarios</h1>
+<div class="container">
+    <div class="col-12">
+        <div class="row mt-4">
+            <div class="alert col-12 alert-primary" role="alert">
+                <h1>Usuarios</h1>
+            </div>
+        </div>
+    </div>
+    <div th:replace="/administrator/components/message_welcome.html"></div>
+    <div class="row">
+        <div th:if="${(view_name == null) || (view_name== 'all')}" class="col-12">
+            <div class="col-12 mt-4 mb-4">
+                <a class="btn btn-primary text-white mt-4 mb-4" th:href="@{/admin/usuario(view_name='new')}">
+                    Crear Usuario
+                </a>
+            </div>
+            <table class="table table-striped">
+                <thead class="bg-dark bg-gradient text-white">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Correo</th>
+                    <th scope="col">Contraseña</th>
+                    <th scope="col">Id Grupo</th>
+                    <th scope="col" class="g-2" style="text-align: center;">Opciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="usuario : ${usuarios}">
+                    <th scope="row" th:text="${usuario.getIdUsuario()}"></th>
+                    <td th:text="${usuario.getNombre()}"></td>
+                    <td th:text="${usuario.getApellido()}"></td>
+                    <td th:text="${usuario.getFecha()}"></td>
+                    <td th:text="${usuario.getCorreo()}"></td>
+                    <td th:text="${usuario.getContrasena()}"></td>
+                    <td th:text="${usuario.getIdGrupo()}"></td>
+                    <td style="display: flex; justify-content: center; align-items: center;">
+                        <a class="btn btn-update text-white"
+                           th:href="@{/admin/usuario(view_name='update', id=${usuario.getIdUsuario()})}">Actualizar</a>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <form style="margin: 0px;" th:action="@{/admin/usuario/delete}" method="post">
+                            <input type="hidden" name="_method" value="delete">
+                            <input type="hidden" name="id" th:value="${usuario.getIdUsuario()}">
+                            <button class="text-white btn btn-danger" type="submit">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div th:if="${(view_name == 'new') || (view_name == 'update')}" class="col-12">
+            <form th:action="@{/admin/usuario}" th:method="post" th:object="${usuario}">
+                <input type="hidden" th:field="*{idUsuario}">
+                <div class="form-group">
+                    <label for="inputNombre">Nombre</label>
+                    <input class="form-control" type="text" th:value="*{nombre}" id="inputNombre"
+                         th:field="*{nombre}" name="Nombre">
+                </div>
+                <div class="form-group">
+                    <label for="inputApellido">Apellido</label>
+                    <input class="form-control" type="text" th:value="*{apellido}" id="inputApellido"
+                         th:field="*{apellido}" name="Apellido">
+                </div>
+                <div class="form-group">
+                    <label for="inputCorreo">Correo</label>
+                    <input class="form-control" type="text" th:value="*{correo}" id="inputCorreo"
+                         th:field="*{correo}" name="Correo">
+                </div>
+                <div class="form-group">
+                    <label for="inputContra">Contraseña</label>
+                    <input class="form-control" type="text" th:value="*{contrasena}" id="inputContra"
+                         th:field="*{contrasena}" name="Contra">
+                </div>
+                <div class="form-group">
+                    <label for="inputGrupo">IdGrupo</label>
+                    <input class="form-control" type="text" th:value="*{idGrupo}" id="inputGrupo"
+                         th:field="*{idGrupo}" name="Grupo">
+                </div>
+                <div class="form-group mt-3">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="reset" class="btn btn-dark text-white">Deshacer</button>
+                    <a class="btn btn-back text-white" th:href="@{/admin/usuario}">Regresar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <div th:replace="/administrator/components/scripts.html"></div>
 </body>
 </html>

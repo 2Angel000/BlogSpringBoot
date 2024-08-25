@@ -3,6 +3,8 @@ package com.mangel.startcms.data.repository;
 import com.mangel.startcms.data.maper.PermisoMapper;
 import com.mangel.startcms.data.model.Permiso;
 import jakarta.annotation.PostConstruct;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,6 +15,7 @@ import java.util.List;
 
 @Repository
 public class PermisoRepository implements PermisoRep {
+    private Log logger = LogFactory.getLog(this.getClass());
     @Autowired
     private DataSource dataSource;
     private JdbcTemplate jdbcTemplate;
@@ -45,7 +48,7 @@ public class PermisoRepository implements PermisoRep {
 
     @Override
     public List<Permiso> findAll(SpringDataWebProperties.Pageable pageable) {
-        return jdbcTemplate.query("SELECT * FROM Permiso",new PermisoMapper());
+        return jdbcTemplate.query("select * from Permiso",new PermisoMapper());
     }
 
     @Override
@@ -65,10 +68,12 @@ public class PermisoRepository implements PermisoRep {
     @Override
     public boolean deleteById(int id) {
         try{
-            String sql = String.format("delete from permiso where idPermiso = '%d' ");
+            String sql = String.format("delete from permiso where IdPermiso = '%d'",id);
             jdbcTemplate.execute(sql);
+            logger.info("Success permiso delete\n"+sql);
             return true;
         }catch (Exception e){
+            logger.error("Error deleting permiso\n"+e);
             return false;
         }
     }

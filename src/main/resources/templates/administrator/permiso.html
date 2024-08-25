@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml" >
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -18,9 +17,59 @@
                 </div>
             </div>
         </div>
-        <div th:replace="/administrator/components/message_welcome.html">
+        <div th:replace="/administrator/components/message_welcome.html"></div>
+            <div class="row">
+                <div th:if="${(view_name == null) || (view_name == 'all')}" class="col-12">
+                    <div class="col-12 mt-4 mb-4">
+                        <a class="btn btn-primary text-white mt-4 mb-4" th:href="@{/admin/permiso(view_name='new')}">
+                            Agregar Permiso
+                        </a>
+                    </div>
+                    <table class="table table-striped">
+                        <thead class="bg-dark bg-gradient text-white">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nombre</th>
+                            <th scope="col">Fecha</th>
+                            <th scope="col" class="g-2" style="text-align: center;">Opciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="permiso : ${permisos}">
+                            <th scope="row" th:text="${permiso.getIdPermiso()}"></th>
+                            <td th:text="${permiso.getNombre()}"></td>
+                            <td th:text="${permiso.getFecha()}"></td>
+                            <td style="display: flex; justify-content: center; align-items: center">
+                                <a class="btn btn-update text-white"
+                                th:href="@{/admin/permiso(view_name='update', id=${permiso.getIdPermiso()})}">Actualizar</a>
+                                &nbsp;
+                                <form style="margin: 0px;" th:action="@{/admin/permiso/delete}" method="post">
+                                    <input type="hidden" name="_method" value="delete">
+                                    <input type="hidden" name="id" th:value="${permiso.getIdPermiso()}">
+                                    <button class="text-white btn btn-danger" type="submit">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
 
+                <div th:if="${(view_name=='new') || (view_name=='update')}" class="col-12">
+                    <form th:action="@{/admin/permiso}" th:method="post" th:object="${permiso}">
+                        <input type="hidden" th:field="*{idPermiso}">
+                        <div class="form-group">
+                            <label for="inputNombre">Nombre</label>
+                            <input class="form-control" type="text" name="inputNombre" id="inputNombre" th:value="*{nombre}" th:field="*{nombre}">
+                        </div>
+                        <div class="form-group mt-3">
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                            <button type="reset" class="btn btn-dark text-white">Deshacer</button>
+                            <a class="btn btn-back text-white" th:href="@{/admin/permiso}">Regresar</a>
+                        </div>
+                    </form>
+                </div>
 
+            </div>
     </div>
 <div th:replace="/administrator/components/scripts.html"></div>
 </body>

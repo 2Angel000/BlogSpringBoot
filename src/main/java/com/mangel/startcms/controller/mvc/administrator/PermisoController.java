@@ -13,7 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/admin/permiso")
 public class PermisoController {
-
     @Autowired
     private PermisoRepository permisoRepository;
 

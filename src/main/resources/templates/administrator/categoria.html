@@ -44,7 +44,7 @@
                     <td th:text="${categoria.getFecha()}"></td>
                     <td style="display: flex; justify-content: center; align-items: center;">
                         <a class="btn btn-update text-white"
-                           th:href="@{/admin/categoria(view_name='update', id=${categoria.getIdCategoria()})}">Actualizar</a>
+                           th:href="@{/admin/categoria/(view_name='update', id=${categoria.getIdCategoria()})}">Actualizar</a>
                         &nbsp;
                         <form style="margin: 0px;" th:action="@{/admin/categoria/delete}" method="post">
                             <input type="hidden" name="_method" value="delete">

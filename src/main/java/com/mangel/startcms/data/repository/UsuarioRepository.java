@@ -3,6 +3,8 @@ package com.mangel.startcms.data.repository;
 import com.mangel.startcms.data.maper.UsuarioMapper;
 import com.mangel.startcms.data.model.Usuario;
 import jakarta.annotation.PostConstruct;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,6 +15,8 @@ import java.util.List;
 
 @Repository
 public class UsuarioRepository implements UsuarioRep{
+    private Log logger = LogFactory.getLog(getClass());
+
     @Autowired
     private DataSource dataSource;
     private JdbcTemplate jdbcTemplate;
@@ -62,5 +66,17 @@ public class UsuarioRepository implements UsuarioRep{
 
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @Override
+    public boolean deleteById(int id) {
+        try{
+            String sql = String.format("delete from usuario where IdUsuario = '%d'", id);
+            jdbcTemplate.execute(sql);
+            return true;
+        }catch (Exception e){
+            logger.error("Error deleting usuario", e);
+            return false;
+        }
     }
 }

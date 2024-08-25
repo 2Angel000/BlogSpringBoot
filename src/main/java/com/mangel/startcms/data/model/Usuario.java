@@ -1,11 +1,14 @@
 package com.mangel.startcms.data.model;
 
+import java.util.Date;
+
 public class Usuario {
     private long IdUsuario;
     private String Nombre;
     private String Apellido;
     private String Correo;
     private String Contrasena;
+    private Date Fecha;
     private long IdGrupo;
 
     public long getIdUsuario() {
@@ -38,6 +41,14 @@ public class Usuario {
 
     public void setCorreo(String correo) {
         Correo = correo;
+    }
+
+    public Date getFecha() {
+        return Fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        Fecha = fecha;
     }
 
     public String getContrasena() {
