@@ -1,16 +1,106 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Comentario</title>
     <div th:replace="/administrator/components/style.html"></div>
 </head>
 <body>
-<div th:replace="/administrator/components/nav.html"></div>
-<h1>Comentario</h1>
-<div th:replace="/administrator/components/scripts.html"></div>
+    <div th:replace="/administrator/components/nav.html"></div>
+    <div class="container">
+        <div class="col-12">
+            <div class="row mt-4">
+                <div class="alert col-12 alert-primary" role="alert">
+                    <h2>Comentario</h2>
+                </div>
+            </div>
+        </div>
+        <div th:replace="/administrator/components/message_welcome.html"></div>
+        <div class="row">
+            <div th:if="${(view_name==null)||(view_name=='all')}" class="col-12">
+                <div class="col-12 mt-4 mb-4">
+                    <a class="btn btn-primary text-white mt-4 mb-4" th:href="@{/admin/comentario(view_name='new')}">
+                        Agregar Comentario
+                    </a>
+                </div>
+                <table class="table table-striped">
+                    <thead class="bg-dark bg-gradient text-white">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Comentario</th>
+                        <th scope="col">Respuesta</th>
+                        <th scope="col">IdPost</th>
+                        <th scope="col">IdUsuario</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col" class="g-2" style="text-align: center;">Opciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="comentario : ${comentarios}">
+                        <th scope="row" th:text="${comentario.getIdComentario()}"></th>
+                        <td th:text="${comentario.getComentario()}"></td>
+                        <td th:text="${comentario.getRespuesta()}"></td>
+                        <td th:text="${comentario.getIdPost()}"></td>
+                        <td th:text="${comentario.getIdUsuario()}"></td>
+                        <td th:text="${comentario.getFecha()}"></td>
+                        <td style="display:flex; justify-content:center; align-items: center;">
+                            <a class="btn btn-update text-white"
+                                th:href="@{/admin/comentario(view_name='update', id=${comentario.getIdComentario()})}">
+                                Actualizar
+                            </a>
+                            &nbsp;
+                            <form style="margin:0;" th:action="@{/admin/comentario/delete}" method="post">
+                                <input type="hidden" name="_method" value="delete">
+                                <input type="hidden" name="id" th:value="${comentario.getIdComentario()}">
+                                <button class="text-white btn btn-danger" type="submit">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div th:if="${(view_name =='new') || (view_name == 'update')}" class="col-12">
+                <form th:action="@{/admin/comentario}" th:method="post" th:object="${comentario}">
+                    <input type="hidden" th:field="*{idComentario}">
+                    <div class="form-group">
+                        <label for="inpCom">Nombre</label>
+                            <input type="text" class="form-control" th:value="*{comentario}" id="inpCom"
+                                th:field="*{comentario}" name="Comentario">
+                    </div>
+                    <div class="form-group">
+                        <label for="inpResp">Respuesta</label>
+                            <input type="text" class="form-control" th:value="*{respuesta}" id="inpResp"
+                                th:field="*{respuesta}" name="Respuesta">
+                    </div>
+                    <div class="form-group">
+                        <label for="inpIdPost">Id Post</label>
+                            <input type="text" class="form-control" th:value="*{idPost}" id="inpIdPost"
+                                th:field="*{idPost}" name="IdPost">
+                    </div>
+                    <div class="form-group">
+                        <label for="inpIdUsuario">Id Usuario</label>
+                            <input type="text" class="form-control" th:value="*{idUsuario}" id="inpIdUsuario"
+                                th:field="*{idUsuario}" name="IdUsuario">
+                    </div>
+                    <div class="form-group mt-3">
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <button type="reset" class="btn btn-dark text-white">Deshacer</button>
+                        <a class="btn btn-back text-white" th:href="@{/admin/comentario}">
+                            Regresar
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <div th:replace="/administrator/components/scripts.html"></div>
+
 </body>
 </html>

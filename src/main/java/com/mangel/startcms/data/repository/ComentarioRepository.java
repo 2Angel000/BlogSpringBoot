@@ -3,6 +3,8 @@ package com.mangel.startcms.data.repository;
 import com.mangel.startcms.data.maper.ComentarioMapper;
 import com.mangel.startcms.data.model.Comentario;
 import jakarta.annotation.PostConstruct;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -16,6 +18,8 @@ public class ComentarioRepository implements ComentarioRep{
     @Autowired
     private DataSource dataSource;
     private JdbcTemplate jdbcTemplate;
+
+    private Log logger = LogFactory.getLog(getClass());
 
     @PostConstruct
     public void postConstruct(){
@@ -64,4 +68,17 @@ public class ComentarioRepository implements ComentarioRep{
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
+
+    @Override
+    public boolean deleteById(int id) {
+        try{
+            String sql = String.format("delete from comentario where IdComentario='%d'",id);
+            jdbcTemplate.execute(sql);
+            return true;
+        }catch (Exception e){
+            logger.error("Error deleting:\n"+e);
+            return false;
+        }
+    }
+
 }
