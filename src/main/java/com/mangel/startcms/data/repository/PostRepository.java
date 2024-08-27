@@ -3,6 +3,8 @@ package com.mangel.startcms.data.repository;
 import com.mangel.startcms.data.maper.PostMapper;
 import com.mangel.startcms.data.model.Post;
 import jakarta.annotation.PostConstruct;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -13,6 +15,8 @@ import java.util.List;
 
 @Repository
 public class PostRepository implements PostRep{
+    private Log logger = LogFactory.getLog(getClass());
+
     @Autowired
     private DataSource dataSource;
     private JdbcTemplate jdbcTemplate;
@@ -63,5 +67,17 @@ public class PostRepository implements PostRep{
 
     public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    @Override
+    public boolean deleteById(int id) {
+        try{
+            String sql = String.format("delete from post where IdPost = '%d'",id);
+            jdbcTemplate.execute(sql);
+            return true;
+        }catch (Exception e){
+            logger.error("Error deleting"+e);
+            return false;
+        }
     }
 }

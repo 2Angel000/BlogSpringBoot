@@ -1,5 +1,7 @@
 package com.mangel.startcms.data.model;
 
+import java.util.Date;
+
 public class Post {
     private long IdPost;
     private String Titulo;
@@ -7,6 +9,9 @@ public class Post {
     private String Extracto;
     private long IdUsuario;
     private long IdCategoria;
+    private String ImagenDestacada;
+    private String Tipo;
+    private Date Fecha;
 
     public long getIdPost() {
         return IdPost;
@@ -72,6 +77,11 @@ public class Post {
         Tipo = tipo;
     }
 
-    private String ImagenDestacada;
-    private String Tipo;
+    public Date getFecha() {
+        return Fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        Fecha = fecha;
+    }
 }

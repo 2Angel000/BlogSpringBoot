@@ -19,6 +19,7 @@ public class PostMapper implements RowMapper<Post> {
         post.setIdCategoria(rs.getInt("IdCategoria"));
         post.setImagenDestacada(rs.getString("ImagenDestacada"));
         post.setTipo(rs.getString("Tipo"));
+        post.setFecha(rs.getDate("Fecha"));
         return post;
     }
 }

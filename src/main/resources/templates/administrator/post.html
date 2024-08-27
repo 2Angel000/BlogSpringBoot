@@ -10,7 +10,112 @@
 </head>
 <body>
 <div th:replace="/administrator/components/nav.html"></div>
-<h1>Posts</h1>
+<div class="container">
+    <div class="col-12">
+        <div class="row mt-4">
+            <div class="alert col-12 alert-primary" role="alert">
+                <h2>Post</h2>
+            </div>
+        </div>
+    </div>
+    <div th:replace="/administrator/components/message_welcome.html"></div>
+    <div class="row">
+        <div th:if="${(view_name == null) || (view_name == 'all')}" class="col-12">
+            <div class="col-12 mt-4 mb-4">
+                <a href="" class="btn btn-primary text-white mt-4 mb-4" th:href="@{/admin/post(view_name='new')}">
+                    Agregar Post
+                </a>
+            </div>
+            <table class="table table-striped">
+                <thead class="bg-dark bg-gradient text-white">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Titulo</th>
+                    <th scope="col">Slug</th>
+                    <th scope="col">Extracto</th>
+                    <th scope="col">IdUsuario</th>
+                    <th scope="col">IdCategoria</th>
+                    <th scope="col">Imagen Destacada</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Opciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="post:${posts}">
+                    <th scope="row" th:text="${post.getIdPost()}"></th>
+                    <td th:text="${post.getTitulo()}"></td>
+                    <td th:text="${post.getSlug()}"></td>
+                    <td th:text="${post.getExtracto()}"></td>
+                    <td th:text="${post.getIdUsuario()}"></td>
+                    <td th:text="${post.getIdCategoria()}"></td>
+                    <td th:text="${post.getImagenDestacada()}"></td>
+                    <td th:text="${post.getTipo()}"></td>
+                    <td th:text="${post.getFecha()}"></td>
+                    <td style="display:flex; justify-content: center; align-items: center;">
+                        <a class="btn btn-update text-white"
+                           th:href="@{/admin/post(view_name='update', id=${post.getIdPost()})}">Actualizar</a>
+                        &nbsp;
+                        <form style="margin: 0px;" th:action="@{/admin/post/delete}" method="post">
+                            <input type="hidden" name="_method" value="delete">
+                            <input type="hidden" name="id" th:value="${post.getIdPost()}">
+                            <button class="btn btn-danger text-white" type="submit">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-12" th:if="${(view_name == 'new'  || view_name == 'update')}">
+            <form th:action="@{/admin/post}" th:method="post" th:object="${post}">
+                <input type="hidden" th:field="*{idPost}">
+
+                <div class="form-group">
+                    <label for="inpTit">Titulo</label>
+                    <input type="text" class="form-control" th:value="*{titulo}" id="inpTit" th:field="*{titulo}"
+                           name="Titulo">
+                </div>
+                <div class="form-group">
+                    <label for="inpSlug">Slug</label>
+                    <input type="text" class="form-control" th:value="*{slug}" id="inpSlug" th:field="*{slug}"
+                           name="Slug">
+                </div>
+                <div class="form-group">
+                    <label for="inpExt">Extracto</label>
+                    <input type="text" class="form-control" th:value="*{extracto}" id="inpExt" th:field="*{extracto}"
+                           name="Extracto">
+                </div>
+                <div class="form-group">
+                    <label for="inpUsuaruio">IdUsuario</label>
+                    <input type="text" class="form-control" th:value="*{idUsuario}" id="inpUsuaruio" th:field="*{idUsuario}"
+                           name="Usuario">
+                </div>
+                <div class="form-group">
+                    <label for="inpCat">IdCategoria</label>
+                    <input type="text" class="form-control" th:value="*{idCategoria}" id="inpCat" th:field="*{idCategoria}"
+                           name="Categoria">
+                </div>
+                <div class="form-group">
+                    <label for="inpImg">ImgDest</label>
+                    <input type="text" class="form-control" th:value="*{imagenDestacada}" id="inpImg" th:field="*{imagenDestacada}"
+                           name="ImagenDestacada">
+                </div>
+                <div class="form-group">
+                    <label for="inpTipo">Tipo</label>
+                    <input type="text" class="form-control" th:value="*{tipo}" id="inpTipo" th:field="*{tipo}"
+                           name="Tipo">
+                </div>
+                <div class="form-group mt-3">
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="reset" class="btn btn-dark text-white">Deshacer</button>
+                    <a th:href="@{/admin/post}" class="btn btn-back text-white">Regresar</a>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
 <div th:replace="/administrator/components/scripts.html"></div>
 </body>
 </html>
