@@ -32,10 +32,10 @@
                     <th scope="col">#</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Apellido</th>
-                    <th scope="col">Fecha</th>
                     <th scope="col">Correo</th>
-                    <th scope="col">Contraseña</th>
-                    <th scope="col">Id Grupo</th>
+                    <th scope="col">Fecha</th>
+<!--                    <th scope="col">Contraseña</th>-->
+<!--                    <th scope="col">Id Grupo</th>-->
                     <th scope="col" class="g-2" style="text-align: center;">Opciones</th>
                 </tr>
                 </thead>
@@ -44,10 +44,10 @@
                     <th scope="row" th:text="${usuario.getIdUsuario()}"></th>
                     <td th:text="${usuario.getNombre()}"></td>
                     <td th:text="${usuario.getApellido()}"></td>
-                    <td th:text="${usuario.getFecha()}"></td>
                     <td th:text="${usuario.getCorreo()}"></td>
-                    <td th:text="${usuario.getContrasena()}"></td>
-                    <td th:text="${usuario.getIdGrupo()}"></td>
+                    <td th:text="${usuario.getFecha()}"></td>
+<!--                    <td th:text="${usuario.getContrasena()}"></td>-->
+<!--                    <td th:text="${usuario.getIdGrupo()}"></td>-->
                     <td style="display: flex; justify-content: center; align-items: center;">
                         <a class="btn btn-update text-white"
                            th:href="@{/admin/usuario(view_name='update', id=${usuario.getIdUsuario()})}">Actualizar</a>
@@ -83,13 +83,14 @@
                 </div>
                 <div class="form-group">
                     <label for="inputContra">Contraseña</label>
-                    <input class="form-control" type="text" th:value="*{contrasena}" id="inputContra"
+                    <input class="form-control" type="password" th:value="*{contrasena}" id="inputContra"
                          th:field="*{contrasena}" name="Contra">
                 </div>
                 <div class="form-group">
                     <label for="inputGrupo">IdGrupo</label>
-                    <input class="form-control" type="text" th:value="*{idGrupo}" id="inputGrupo"
-                         th:field="*{idGrupo}" name="Grupo">
+                    <select th:field="*{idGrupo}" name="_cargo" id="inputGrupo" class="form-control">
+                        <option th:value="${grupo.getIdGrupo()}" th:each="grupo : ${grupos}" th:text="${grupo.getNombre()}"></option>
+                    </select>
                 </div>
                 <div class="form-group mt-3">
                     <button type="submit" class="btn btn-primary">Guardar</button>

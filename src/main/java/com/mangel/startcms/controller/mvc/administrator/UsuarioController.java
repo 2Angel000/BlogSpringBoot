@@ -1,6 +1,7 @@
 package com.mangel.startcms.controller.mvc.administrator;
 
 import com.mangel.startcms.data.model.Usuario;
+import com.mangel.startcms.data.repository.GrupoRepository;
 import com.mangel.startcms.data.repository.UsuarioRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class UsuarioController {
      @Autowired
      private UsuarioRepository usuarioRepository;
+     @Autowired
+     private GrupoRepository grupoRepository;
 
     @GetMapping
     public ModelAndView getHome(HttpServletRequest request, Model model,
@@ -31,10 +34,14 @@ public class UsuarioController {
                 break;
             case "new":
                 modelAndView.addObject("usuario", new Usuario());
+                modelAndView.addObject("grupos", grupoRepository.findAll(pageable));
+                modelAndView.addObject("update", false);
                 System.out.println("view_name = "+ view_name);
                 break;
             case "update":
                 modelAndView.addObject("usuario", usuarioRepository.findById(id));
+                modelAndView.addObject("grupos", grupoRepository.findAll(pageable));
+                modelAndView.addObject("update", true);
                 break;
         }
         return modelAndView;

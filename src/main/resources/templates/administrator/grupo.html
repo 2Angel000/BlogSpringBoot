@@ -58,13 +58,44 @@
         <div th:if="${(view_name == 'new') || (view_name== 'update')}" class="col-12">
             <form th:action="@{/admin/grupo}" th:method="post" th:object="${grupo}">
                 <input type="hidden" th:field="*{idGrupo}">
-                <div class="form-group">
+                <div class="form-group pb-4">
                     <label for="inputNombre">Nombre</label>
                     <input class="form-control" type="text" th:value="*{nombre}" id="inputNombre"
                            th:field="*{nombre}" name="Nombre">
                 </div>
+
+
+                <table class="table table-striped">
+                    <thead class="bg-dark bg-gradient text-white">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Fecha</th>
+<!--                        <th scope="col" class="g-2" style="text-align: center;">Opciones</th>-->
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="permiso : ${permisos}">
+                        <th scope="row" th:text="${permiso.getIdPermiso()}"></th>
+                        <td th:text="${permiso.getNombre()}"></td>
+                        <td th:text="${permiso.getFecha()}"></td>
+                        <td style="display: flex; justify-content: center; align-items: center">
+                            <form style="margin: 0px;" th:action="@{/admin/permiso}" method="post">
+                                <input type="hidden" name="_method" value="delete">
+                                <input type="hidden" name="id" th:value="${permiso.getIdPermiso()}">
+                                <button class="text-white btn btn-danger" type="submit">Agregar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
                 <div class="form-group mt-3">
                     <button type="submit" class="btn btn-primary">Guardar</button>
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        Agregar Permisos
+                    </button>
                     <button type="reset" class="btn btn-dark text-white">Deshacer</button>
                     <a class="btn btn-back text-white" th:href="@{/admin/grupo}">Regresar</a>
                 </div>
@@ -74,5 +105,47 @@
     </div>
 </div>
 <div th:replace="/administrator/components/scripts.html"></div>
+
+
+<!-- Modal permisos-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Selecciona Permiso</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-striped">
+                    <thead class="bg-dark bg-gradient text-white">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Fecha</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="permiso : ${permisos_disponibles}">
+                        <th scope="row" th:text="${permiso.getIdPermiso()}"></th>
+                        <td th:text="${permiso.getNombre()}"></td>
+                        <td th:text="${permiso.getFecha()}"></td>
+                        <td style="display: flex; justify-content: center; align-items: center">
+                            <form style="margin: 0px;" th:action="@{/admin/grupo/addPermiso}" method="post">
+                                <input type="hidden" name="_method" value="delete">
+                                <input type="hidden" name="id" th:value="${permiso.getIdPermiso()}">
+                                <button class="text-white btn btn-primary" type="submit">Agregar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
